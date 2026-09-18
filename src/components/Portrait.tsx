@@ -1,14 +1,23 @@
 import Image from "next/image";
 
-export function Portrait({ className = "" }: { className?: string }) {
+export function Portrait({ 
+  className = "",
+  src = "/images/leader-portrait.png",
+  alt = "Sarpanch"
+}: { 
+  className?: string;
+  src?: string | null;
+  alt?: string;
+}) {
   return (
-    <div className={`relative overflow-hidden bg-cream ${className}`}>
+    <div className={`relative overflow-hidden ${className}`}>
       <Image
-        src="/images/leader-portrait.png"
-        alt="श्री महेश कुमार मीणा"
+        src={src || "/images/leader-portrait.png"}
+        alt={alt}
         fill
         sizes="(max-width: 768px) 80vw, 360px"
-        className="object-cover"
+        className="object-cover object-top"
+        unoptimized
         priority
       />
     </div>

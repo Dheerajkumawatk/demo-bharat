@@ -2,8 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Landmark } from "lucide-react";
 import { Portrait } from "@/components/Portrait";
+import type { Sarpanch } from "@prisma/client";
 
-export function Hero() {
+export function Hero({ sarpanch, slug }: { sarpanch: Sarpanch; slug: string }) {
   return (
     <section className="relative overflow-hidden bg-navy">
       <Image
@@ -26,27 +27,27 @@ export function Hero() {
           </div>
 
           <h1 className="text-balance text-4xl font-extrabold leading-tight text-white sm:text-6xl lg:text-[4rem]">
-            <span className="text-saffron">गांव का विकास</span>
+            <span className="text-saffron">{sarpanch.name}</span>
             <br />
             हमारा संकल्प
           </h1>
 
           <p className="mt-5 max-w-lg text-base leading-relaxed text-ink/70 sm:text-lg">
             <span className="text-white/90">
-            आपके विश्वास और सहयोग से, हम गांव को नई दिशा, नई पहचान और बेहतर भविष्य देने के लिए संकल्पित हैं।
+              {sarpanch.description || "आपके विश्वास और सहयोग से, हम गांव को नई दिशा, नई पहचान और बेहतर भविष्य देने के लिए संकल्पित हैं।"}
             </span>
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/about"
+              href={`/${slug}/about`}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-saffron px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-saffron/20 transition-colors hover:bg-saffron-dark"
             >
               मेरे बारे में जानें
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/panchayat"
+              href={`/${slug}/panchayat`}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/55 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/20"
             >
               मेरे कार्य देखें
@@ -56,7 +57,7 @@ export function Hero() {
 
         <div className="relative hidden self-end lg:block">
           <div className="relative mx-auto aspect-[4/5] w-[360px] overflow-hidden">
-            <Portrait className="h-full w-full" />
+            <Portrait src={sarpanch.image} alt={sarpanch.name} className="h-full w-full" />
           </div>
         </div>
 
@@ -65,7 +66,7 @@ export function Hero() {
           <p className="text-3xl font-extrabold leading-tight text-navy">
             मेरा गांव
             <br />
-            मेरी पहचान
+            {sarpanch.village || "ग्राम पंचायत"}
           </p>
           <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-saffron via-white to-emerald-600" />
         </div>

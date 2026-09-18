@@ -72,11 +72,43 @@ export const works = [
 ] as const;
 
 export const galleryItems = [
-  { id: 1, type: "photo", title: "गांव की नई सड़क", category: "विकास कार्य" },
-  { id: 2, type: "photo", title: "पानी की टंकी निर्माण", category: "विकास कार्य" },
-  { id: 3, type: "photo", title: "स्कूल भवन का निर्माण", category: "शिक्षा" },
-  { id: 4, type: "video", title: "ग्राम सभा बैठक", category: "बैठक", duration: "03:45" },
-  { id: 5, type: "video", title: "किसानों के लिए योजनाएं", category: "कृषि", duration: "02:32" },
+  {
+    id: 1,
+    type: "photo",
+    title: "गांव की नई सड़क",
+    category: "विकास कार्य",
+    image: "/images/gallery/new-road.png",
+  },
+  {
+    id: 2,
+    type: "photo",
+    title: "पानी की टंकी निर्माण",
+    category: "विकास कार्य",
+    image: "/images/gallery/water-tank.png",
+  },
+  {
+    id: 3,
+    type: "photo",
+    title: "स्कूल भवन का निर्माण",
+    category: "शिक्षा",
+    image: "/images/gallery/school-building.png",
+  },
+  {
+    id: 4,
+    type: "video",
+    title: "ग्राम सभा बैठक",
+    category: "बैठक",
+    duration: "03:45",
+    image: "/images/gallery/gram-sabha.png",
+  },
+  {
+    id: 5,
+    type: "video",
+    title: "किसानों के लिए योजनाएं",
+    category: "कृषि",
+    duration: "02:32",
+    image: "/images/gallery/farmer-schemes.png",
+  },
   { id: 6, type: "photo", title: "स्वास्थ्य शिविर आयोजन", category: "स्वास्थ्य" },
   { id: 7, type: "photo", title: "हैंडपंप स्थापना", category: "विकास कार्य" },
   { id: 8, type: "photo", title: "वृक्षारोपण अभियान", category: "पर्यावरण" },
@@ -86,6 +118,7 @@ export const galleryItems = [
 export const newsItems = [
   {
     slug: "22-new-handpumps",
+    image: "/images/news/handpumps.png",
     date: "12 सितंबर 2025",
     title: "ग्राम पंचायत में 22 नए हैंडपंप स्वीकृत",
     excerpt: "गांव में पेयजल समस्या के समाधान के लिए 22 हैंडपंप लगाने की स्वीकृति मिली है।",
@@ -94,6 +127,7 @@ export const newsItems = [
   },
   {
     slug: "new-classrooms-school",
+    image: "/images/news/new-classrooms.png",
     date: "05 सितंबर 2025",
     title: "विद्यालय में नए कक्षा-कक्षों का निर्माण",
     excerpt: "प्राथमिक विद्यालय में 4 नए कक्षों के निर्माण का कार्य शुरू हो गया है।",
@@ -102,6 +136,7 @@ export const newsItems = [
   },
   {
     slug: "farmer-honor-ceremony",
+    image: "/images/news/farmer-honor.png",
     date: "28 अगस्त 2025",
     title: "किसान सम्मान समारोह",
     excerpt: "ग्राम पंचायत द्वारा किसानों के सम्मान में विशेष कार्यक्रम का आयोजन किया गया।",
@@ -110,6 +145,7 @@ export const newsItems = [
   },
   {
     slug: "health-camp-organized",
+    image: null,
     date: "15 अगस्त 2025",
     title: "स्वतंत्रता दिवस पर निशुल्क स्वास्थ्य शिविर",
     excerpt: "स्वतंत्रता दिवस पर गांव में निशुल्क स्वास्थ्य जांच शिविर लगाया गया।",
@@ -118,6 +154,7 @@ export const newsItems = [
   },
   {
     slug: "manrega-employment-drive",
+    image: null,
     date: "02 अगस्त 2025",
     title: "मनरेगा के तहत रोजगार शिविर",
     excerpt: "नए जॉब कार्ड बनाने और रोजगार उपलब्ध करवाने हेतु विशेष शिविर आयोजित।",
@@ -126,6 +163,7 @@ export const newsItems = [
   },
   {
     slug: "tree-plantation-drive",
+    image: null,
     date: "20 जुलाई 2025",
     title: "वृक्षारोपण अभियान का शुभारंभ",
     excerpt: "पर्यावरण संरक्षण हेतु गांव में वृक्षारोपण अभियान चलाया गया।",

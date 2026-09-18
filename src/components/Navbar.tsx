@@ -5,8 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Landmark, Menu, UserRound, X } from "lucide-react";
 import { navLinks, site } from "@/data/site";
+import type { Sarpanch } from "@prisma/client";
 
-export function Navbar() {
+export function Navbar({ sarpanch, slug }: { sarpanch: Sarpanch; slug: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -20,7 +21,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-navy/10 bg-white/95 shadow-sm backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2.5 sm:gap-3">
+        <Link href={`/${slug}`} className="flex items-center gap-2.5 sm:gap-3">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded bg-cream ring-1 ring-navy/10 sm:h-14 sm:w-14">
             <Landmark className="h-7 w-7 text-navy sm:h-8 sm:w-8" />
           </span>
@@ -28,20 +29,21 @@ export function Navbar() {
             <span className="block text-[10px] font-bold tracking-wide text-navy/75 sm:text-xs">
               {site.tagline}
             </span>
-            <span className="block text-sm font-extrabold text-navy sm:text-lg">{site.name}</span>
+            <span className="block text-sm font-extrabold text-navy sm:text-lg">{sarpanch.name}</span>
             <span className="hidden text-[11px] font-medium text-ink/55 sm:block">
-              ग्राम पंचायत सरपंच प्रत्याशी / वर्तमान सरपंच
+              ग्राम पंचायत सरपंच
             </span>
           </span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => {
-            const active = pathname === link.href;
+            const href = link.href === "/" ? `/${slug}` : `/${slug}${link.href}`;
+            const active = pathname === href;
             return (
               <Link
-                key={link.href}
-                href={link.href}
+                key={href}
+                href={href}
                 className={`rounded px-3 py-2 text-sm font-semibold transition-colors ${
                   active
                     ? "text-saffron"
@@ -55,7 +57,7 @@ export function Navbar() {
         </nav>
 
         <Link
-          href="/contact"
+          href={`/${slug}/contact`}
           className="hidden shrink-0 items-center gap-2 rounded-full bg-saffron px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-saffron-dark lg:inline-flex"
         >
           <UserRound className="h-4 w-4" />
@@ -76,11 +78,12 @@ export function Navbar() {
         <div className="border-t border-navy/10 bg-white px-4 pb-4 pt-2 lg:hidden">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => {
-              const active = pathname === link.href;
+              const href = link.href === "/" ? `/${slug}` : `/${slug}${link.href}`;
+              const active = pathname === href;
               return (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  key={href}
+                  href={href}
                   onClick={() => setOpen(false)}
                   className={`rounded-lg px-4 py-3 text-base font-medium ${
                     active ? "bg-navy text-white" : "text-navy/80 hover:bg-cream"
@@ -91,7 +94,7 @@ export function Navbar() {
               );
             })}
             <Link
-              href="/contact"
+              href={`/${slug}/contact`}
               onClick={() => setOpen(false)}
               className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-saffron px-4 py-3 text-base font-semibold text-white"
             >

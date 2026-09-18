@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { Clapperboard, Images, LayoutGrid } from "lucide-react";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
 import { galleryItems } from "@/data/site";
@@ -61,12 +62,24 @@ export function GalleryGrid({
             key={item.id}
             className="group overflow-hidden rounded shadow-sm ring-1 ring-navy/10 transition-shadow hover:shadow-lg"
           >
-            <PlaceholderImage
-              icon={ICON_BY_CATEGORY[item.category] ?? "landmark"}
-              seed={String(item.id)}
-              video={item.type === "video"}
-              className="aspect-[4/3] w-full"
-            />
+            {"image" in item && item.image ? (
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+            ) : (
+              <PlaceholderImage
+                icon={ICON_BY_CATEGORY[item.category] ?? "landmark"}
+                seed={String(item.id)}
+                video={item.type === "video"}
+                className="aspect-[4/3] w-full"
+              />
+            )}
             <div className="bg-white p-3">
               <p className="truncate text-sm font-semibold text-navy">{item.title}</p>
               <div className="mt-1 flex items-center justify-between">

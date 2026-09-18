@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Calendar } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
@@ -29,7 +30,19 @@ export function NewsPreview() {
               href={`/news/${n.slug}`}
               className="group grid grid-cols-[96px_1fr] overflow-hidden rounded bg-white p-3 shadow-sm ring-1 ring-navy/10 transition-shadow hover:shadow-lg sm:grid-cols-[112px_1fr]"
             >
-              <PlaceholderImage icon="landmark" seed={n.slug} className="h-full min-h-24 w-full rounded" />
+              {n.image ? (
+                <div className="relative h-full min-h-24 w-full overflow-hidden rounded">
+                  <Image
+                    src={n.image}
+                    alt={n.title}
+                    fill
+                    sizes="(max-width: 640px) 96px, 112px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              ) : (
+                <PlaceholderImage icon="landmark" seed={n.slug} className="h-full min-h-24 w-full rounded" />
+              )}
               <div className="px-4 py-1">
                 <p className="flex items-center gap-1.5 text-[11px] font-medium text-ink/50">
                   <Calendar className="h-3.5 w-3.5" />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
@@ -35,7 +36,19 @@ export default function NewsPage() {
                 href={`/news/${n.slug}`}
                 className="group overflow-hidden rounded-2xl bg-white ring-1 ring-navy/10 transition-shadow hover:shadow-lg"
               >
-                <PlaceholderImage icon="landmark" seed={n.slug} className="aspect-[16/10] w-full" />
+                {n.image ? (
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+                    <Image
+                      src={n.image}
+                      alt={n.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                ) : (
+                  <PlaceholderImage icon="landmark" seed={n.slug} className="aspect-[16/10] w-full" />
+                )}
                 <div className="p-5">
                   <p className="flex items-center gap-1.5 text-xs font-medium text-ink/50">
                     <Calendar className="h-3.5 w-3.5" />

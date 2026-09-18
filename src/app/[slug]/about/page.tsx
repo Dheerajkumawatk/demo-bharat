@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import {
   ArrowRight,
   Award,
@@ -11,11 +12,15 @@ import {
 } from "lucide-react";
 import { Portrait } from "@/components/Portrait";
 import { SectionHeading } from "@/components/SectionHeading";
-import { site } from "@/data/site";
+import prisma from "@/lib/prisma";
 
-export const metadata: Metadata = {
-  title: `मेरे बारे में | ${site.name}`,
-};
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const sarpanch = await prisma.sarpanch.findUnique({ where: { slug } });
+  return {
+    title: `मेरे बारे में | ${sarpanch?.name || "Sarpanch"}`,
+  };
+}
 
 const timeline = [
   { year: "2016", title: "समाज सेवा की शुरुआत", desc: "युवा मंडल के माध्यम से गांव में सामाजिक कार्यों में सक्रिय भागीदारी।" },
@@ -30,7 +35,14 @@ const values = [
   { icon: Award, title: "जवाबदेही", desc: "जनता के प्रति उत्तरदायी रहकर कार्य करना।" },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const sarpanch = await prisma.sarpanch.findUnique({ where: { slug } });
+
+  if (!sarpanch) {
+    notFound();
+  }
+
   return (
     <>
       <section className="bg-gradient-to-b from-cream to-white">
@@ -40,9 +52,9 @@ export default function AboutPage() {
               <span className="inline-block h-4 w-1 rounded-full bg-saffron" />
               मेरे बारे में
             </p>
-            <h1 className="text-3xl font-extrabold text-navy sm:text-4xl lg:text-5xl">{site.name}</h1>
+            <h1 className="text-3xl font-extrabold text-navy sm:text-4xl lg:text-5xl">{sarpanch.name}</h1>
             <p className="mt-2 text-base font-medium text-ink/55">
-              वर्तमान सरपंच | ग्राम पंचायत, {site.village}
+              वर्तमान सरपंच | ग्राम पंचायत, {sarpanch.village || "गांव"}
             </p>
             <p className="mt-5 text-base leading-relaxed text-ink/70">
               मैं आपके गांव का बेटा हूं और आपके विश्वास ने मुझे इस पद तक पहुंचाया है। बचपन से ही मैंने इस गांव की मिट्टी में पलते-बढ़ते हुए यहां की समस्याओं को नज़दीक से देखा और महसूस किया है। मेरा उद्देश्य है कि गांव के हर वर्ग का विकास हो और प्रत्येक परिवार को मूलभूत सुविधाएं मिलें — चाहे वह शिक्षा हो, स्वास्थ्य हो, पानी हो या रोजगार।
@@ -52,14 +64,14 @@ export default function AboutPage() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
-                href="/contact"
+                href={`/${slug}/contact`}
                 className="inline-flex items-center gap-2 rounded-full bg-saffron px-6 py-3 text-sm font-semibold text-white shadow-md shadow-saffron/20 transition-colors hover:bg-saffron-dark"
               >
                 मुझसे संपर्क करें
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/panchayat"
+                href={`/${slug}/panchayat`}
                 className="inline-flex items-center gap-2 rounded-full border-2 border-navy/15 bg-white px-6 py-3 text-sm font-semibold text-navy transition-colors hover:border-navy/30"
               >
                 मेरे कार्य देखें
@@ -69,7 +81,7 @@ export default function AboutPage() {
 
           <div className="order-1 mx-auto w-full max-w-sm lg:order-2 lg:max-w-none">
             <div className="aspect-[4/5] w-full overflow-hidden rounded-[2rem] shadow-xl ring-1 ring-navy/10">
-              <Portrait className="h-full w-full" />
+              <Portrait src={sarpanch.image} alt={sarpanch.name} className="h-full w-full" />
             </div>
           </div>
         </div>
@@ -92,7 +104,7 @@ export default function AboutPage() {
             <div className="rounded-2xl bg-cream p-6">
               <Landmark className="h-8 w-8 text-saffron" />
               <h3 className="mt-3 text-base font-semibold text-navy">ग्राम पंचायत अनुभव</h3>
-              <p className="mt-1 text-sm text-ink/60">वर्तमान सरपंच, ग्राम पंचायत {site.village}</p>
+              <p className="mt-1 text-sm text-ink/60">वर्तमान सरपंच, ग्राम पंचायत {sarpanch.village || "गांव"}</p>
             </div>
           </div>
         </div>
@@ -132,7 +144,7 @@ export default function AboutPage() {
             <p className="mx-auto mt-3 max-w-2xl text-lg font-semibold leading-snug text-navy sm:text-xl">
               गांव का विकास सिर्फ योजनाओं से नहीं, बल्कि ईमानदारी और लगन से होता है।
             </p>
-            <p className="mt-4 text-sm text-ink/60">— {site.name}</p>
+            <p className="mt-4 text-sm text-ink/60">— {sarpanch.name}</p>
           </div>
         </div>
       </section>
