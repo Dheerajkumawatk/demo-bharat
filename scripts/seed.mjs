@@ -8,7 +8,7 @@ const libsql = createClient({
 
 const adapter = new PrismaLibSQL(libsql);
 const prisma = new PrismaClient({ adapter });
-
+console.log("Seeding database...");
 async function main() {
   const sarpanchs = [
     {
